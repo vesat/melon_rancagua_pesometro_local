@@ -1,0 +1,8 @@
+[Unit]
+Description=lee lo de serial pesometro y lo publica
+[Service]
+
+ExecStart=/usr/local/bin/melon_rancagua/inicios/inicio_serial_pesometro.sh
+
+[Install]
+WantedBy=multi-user.target
