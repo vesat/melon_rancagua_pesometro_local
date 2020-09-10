@@ -1,10 +1,19 @@
 import serial, time
+import pymysql
 
 import paho.mqtt.client as mqtt
 broker = "45.236.129.79"
 port = 1883
 client = mqtt.Client("movil_ranc", port)
 lector = serial.Serial('/dev/ttyUSB0', 19200)
+
+servidor='127.0.0.1'
+usuario_serv='adminermanager'
+contrasena_serv='ctmhnwaoejup2289'
+
+db = pymysql.connect(host=servidor,user=usuario_serv,passwd=contrasena_serv,db="sensores",charset = "utf8" )
+cur = db.cursor()
+
 while True:
     cadena = lector.readline()
     # print(cadena.decode())
@@ -23,6 +32,15 @@ while True:
             print(cambio[inicio:fin])  # Tot Neto     :        0       , devuelve el t Ne
             print(type(cambio.find(":")))
 
+            db2 = pymysql.connect(host=servidor, user=usuario_serv, passwd=contrasena_serv, db="sensores_casa",charset="utf8")
+            cur2 = db2.cursor()
+            consulta = "INSERT INTO `Flujo` (`fecha`,`valor`) VALUES (now(), '" + str(cambio[inicio:fin]) + "')"
+            print(consulta)
+            cur2.execute(consulta)
+            db2.commit()
+            db2.close()
+
+
             client.connect(broker)
             client.publish("/melon/movil/Flujo", cambio[inicio:fin])
             client.disconnect()
@@ -38,6 +56,13 @@ while True:
             # print(cambio[2:6]) #Tot Neto     :        0       , devuelve el t Ne
             print(cambio[inicio + 2:fin - 2])  # Tot Neto     :        0       , devuelve el t Ne
             print(type(cambio.find(":")))
+            db = pymysql.connect(host=servidor, user=usuario_serv, passwd=contrasena_serv, db="sensores_casa",charset="utf8")
+            cur = db.cursor()
+            consulta = "INSERT INTO `Total1` (`fecha`,`valor`) VALUES (now(), '"+str(cambio[inicio + 2:fin - 2])+"')"
+            print(consulta)
+            cur.execute(consulta)
+            db.commit()
+            db.close()
 
             client.connect(broker)
             client.publish("/melon/movil/Total1", cambio[inicio + 2:fin - 2])
