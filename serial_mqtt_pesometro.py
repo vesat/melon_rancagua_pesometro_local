@@ -8,10 +8,10 @@ client = mqtt.Client("movil_ranc", port)
 lector = serial.Serial('/dev/ttyUSB0', 19200)
 
 servidor='127.0.0.1'
-usuario_serv='adminermanager'
-contrasena_serv='ctmhnwaoejup2289'
+usuario_serv='openvpnalvarosro'
+contrasena_serv='2aT43Qe4t1W4esindicato777sindicato112XXXXXX1231ZZveu11231XX123XX2121'
 
-db = pymysql.connect(host=servidor,user=usuario_serv,passwd=contrasena_serv,db="sensores",charset = "utf8" )
+db = pymysql.connect(host=servidor,user=usuario_serv,passwd=contrasena_serv,db="bd_melonaridosmovil",charset = "utf8" )
 cur = db.cursor()
 
 while True:
@@ -34,7 +34,7 @@ while True:
 
             db2 = pymysql.connect(host=servidor, user=usuario_serv, passwd=contrasena_serv, db="sensores_casa",charset="utf8")
             cur2 = db2.cursor()
-            consulta = "INSERT INTO `Flujo` (`fecha`,`valor`) VALUES (now(), '" + str(cambio[inicio:fin]) + "')"
+            consulta = "INSERT INTO `pesometro` (`fecha`,`weight`) VALUES (now(), '" + str(cambio[inicio:fin]) + "')"
             print(consulta)
             cur2.execute(consulta)
             db2.commit()
@@ -58,7 +58,7 @@ while True:
             print(type(cambio.find(":")))
             db = pymysql.connect(host=servidor, user=usuario_serv, passwd=contrasena_serv, db="sensores_casa",charset="utf8")
             cur = db.cursor()
-            consulta = "INSERT INTO `Total1` (`fecha`,`valor`) VALUES (now(), '"+str(cambio[inicio + 2:fin - 2])+"')"
+            consulta = "INSERT INTO `pesometro` (`fecha`,`load1`) VALUES (now(), '"+str(cambio[inicio + 2:fin - 2])+"')"
             print(consulta)
             cur.execute(consulta)
             db.commit()
