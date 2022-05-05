@@ -17,7 +17,9 @@ def synctable(sync_col, sync_table, sync_table_2, all_cols, extra_where, limit):
     print("CLOUD SQL (" + sync_table + ") CLIENT LAST " + sync_col + ": " + clientlast)
     buf = ""
     ##fuente de datos
-    vesatdb = pymysql.connect(host="10.8.0.38", user="remoteTC",passwd="xc%Tfg%", db="bd_melonaridosmovil")
+    #vesatdb = pymysql.connect(host="10.8.0.38", user="remoteTC",passwd="xc%Tfg%", db="bd_melonaridosmovil")
+    vesatdb = pymysql.connect(host="192.168.8.2", user="remoteTC", passwd="xc%Tfg%", db="bd_melonaridosmovil")
+
     rcur = vesatdb.cursor()
     rcur.execute("SELECT " + all_cols +
                  " FROM " + sync_table + " WHERE " + sync_col + " > '" + clientlast + "' " + extra_where +
