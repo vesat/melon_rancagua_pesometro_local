@@ -2,14 +2,14 @@ import serial, time
 import pymysql
 
 import paho.mqtt.client as mqtt
-broker = "45.236.129.79"
+broker = "0.0.0.0"
 port = 1883
 client = mqtt.Client("movil_ranc", port)
 lector = serial.Serial('/dev/ttyUSB0', 19200)
 
-servidor='127.0.0.1'
-usuario_serv='openvpnalvarosro'
-contrasena_serv='2aT43Qe4t1W4esindicato777sindicato112XXXXXX1231ZZveu11231XX123XX2121'
+servidor='192.168.8.2'
+usuario_serv='remoteTC'
+contrasena_serv='xc%Tfg%'
 
 db = pymysql.connect(host=servidor,user=usuario_serv,passwd=contrasena_serv,db="bd_melonaridosmovil",charset = "utf8" )
 cur = db.cursor()
